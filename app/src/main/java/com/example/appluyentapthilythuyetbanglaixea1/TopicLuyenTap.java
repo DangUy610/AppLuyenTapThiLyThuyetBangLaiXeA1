@@ -23,7 +23,7 @@ public class TopicLuyenTap extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(TopicLuyenTap.this, LuyenTap.class);
-                intent.putExtra("topic", "luat");
+                intent.putExtra("topic", "LuatGTDB");
                 startActivity(intent);
             }
         });
@@ -32,16 +32,16 @@ public class TopicLuyenTap extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(TopicLuyenTap.this, LuyenTap.class);
-                intent.putExtra("topic", "bienbao");
+                intent.putExtra("topic", "BienBao");
                 startActivity(intent);
             }
         });
-        
+
         btnSaHinh.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(TopicLuyenTap.this, LuyenTap.class);
-                intent.putExtra("topic", "sahinh");
+                intent.putExtra("topic", "SaHinh");
                 startActivity(intent);
             }
         });

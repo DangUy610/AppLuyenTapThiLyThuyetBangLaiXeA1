@@ -13,6 +13,7 @@ import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -27,11 +28,13 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 public class LuyenTap extends AppCompatActivity {
-    int correctAnswerIndex = -1;  // 0 -> A, 1 -> B, 2 -> C, 3 -> D
-    int currentQuestionIndex = 0;
-    int answerQuantity = 0;
-    int questionQuantity = 0;
-    int correctAnswerCount = 0;
+    private int correctAnswerIndex = -1;  // 0 -> A, 1 -> B, 2 -> C, 3 -> D
+    private int currentQuestionIndex = 0;
+    private int answerQuantity = 0;
+    private int questionQuantity = 0;
+    private int correctAnswerCount = 0;
+    private TypedValue tv;
+    private int colorTextPrimary, colorWindowBackground;
     TextView questionText;
     RadioGroup answersGroup;
     RadioButton answer1, answer2, answer3, answer4;
@@ -58,11 +61,15 @@ public class LuyenTap extends AppCompatActivity {
         nextQuestionBtn = findViewById(R.id.nextQuestionBtn);
         questionImage = findViewById(R.id.questionImage);
         btnQuaylaiTopic =findViewById(R.id.btn_quaylai_topic);
+        tv = new TypedValue();
+        getTheme().resolveAttribute(android.R.attr.textColorPrimary, tv, true);
+        colorTextPrimary = tv.data;
+        getTheme().resolveAttribute(android.R.attr.windowBackground, tv, true);
+        colorWindowBackground = tv.data;
         btnQuaylaiTopic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(LuyenTap.this, TopicLuyenTap.class);
-                startActivity(intent);
+                finish();
             }
         });
         // Nhận chủ đề từ Intent
@@ -113,7 +120,8 @@ public class LuyenTap extends AppCompatActivity {
         answersGroup.clearCheck();
         for (RadioButton btn : answerButtons) {
             btn.setEnabled(true);
-            btn.setTextColor(Color.BLACK);
+            btn.setTextColor(colorTextPrimary);
+            btn.setBackgroundColor(colorWindowBackground);
             btn.setText("");
         }
         nextQuestionBtn.setEnabled(false);
@@ -187,13 +195,16 @@ public class LuyenTap extends AppCompatActivity {
 
                     // Tô màu: Xanh lá nếu đúng, đỏ nếu sai
                     if (selectedIndex == correctAnswerIndex) {
-                        answerButtons[selectedIndex].setTextColor(Color.GREEN);
+                        answerButtons[selectedIndex].setTextColor(Color.BLACK);
+                        answerButtons[selectedIndex].setBackgroundColor(Color.parseColor("#4CAF50"));
                         correctAnswerCount++;
 //                        Log.d("CORRECT_ANWSER_COUNT","correctAnswerCount = "+correctAnswerCount);
                     }
                     else {
-                        answerButtons[selectedIndex].setTextColor(Color.RED);
-                        answerButtons[correctAnswerIndex].setTextColor(Color.GREEN);
+                        answerButtons[selectedIndex].setBackgroundColor(Color.parseColor("#FF0000"));
+                        answerButtons[selectedIndex].setTextColor(Color.WHITE);
+                        answerButtons[correctAnswerIndex].setTextColor(Color.BLACK);
+                        answerButtons[correctAnswerIndex].setBackgroundColor(Color.parseColor("#4CAF50"));
                     }
                     nextQuestionBtn.setEnabled(true);
                     questionQuantity++;

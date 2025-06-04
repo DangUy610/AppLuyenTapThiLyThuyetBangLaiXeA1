@@ -3,5 +3,9 @@
     <style name="Base.Theme.AppLuyenTapThiLyThuyetBangLaiXeA1" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your dark theme here. -->
         <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
+        <item name="colorPrimary">#486581</item>
+        <item name="colorOnPrimary">#f0f4f8</item>
+        <item name="android:windowBackground">#102a43</item>
+        <item name="android:textColorPrimary">@color/white</item>
     </style>
 </resources>

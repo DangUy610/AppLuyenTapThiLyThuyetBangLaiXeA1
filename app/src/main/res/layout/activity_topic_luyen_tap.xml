@@ -1,9 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/layout_topic_luyentap"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".TopicLuyenTap">
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:gravity="center"
+    android:background="?android:attr/windowBackground">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Luyện tập thi lý thuyết bằng lái xe A1"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:layout_marginBottom="24dp" />
+
+    <Button
+        android:id="@+id/btn_topic_luat"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Kiến thức về Luật GTĐB"
+        android:textSize="18sp"
+        android:layout_marginBottom="16dp"
+        android:padding="12dp" />
+
+    <Button
+        android:id="@+id/btn_topic_bienbao"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Biển báo"
+        android:textSize="18sp"
+        android:layout_marginBottom="16dp"
+        android:padding="12dp" />
+
+    <Button
+        android:id="@+id/btn_topic_sahinh"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Sa hình"
+        android:textSize="18sp"
+        android:padding="12dp" />
+
+</LinearLayout>

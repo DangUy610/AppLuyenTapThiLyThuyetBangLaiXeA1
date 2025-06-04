@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/layout_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:gravity="center"
+    android:background="?android:attr/windowBackground">
+
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Luyện tập thi lý thuyết bằng lái xe A1"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:layout_marginBottom="24dp" />
+
+    <!-- Nút Luyện tập -->
+    <Button
+        android:id="@+id/btn_luyen_tap"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:text="Luyện tập"
+        android:textSize="18sp"
+        android:padding="12dp" />
+
+    <!-- Nút Thi thử -->
+    <Button
+        android:id="@+id/btn_thi_thu"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:text="Thi thử"
+        android:textSize="18sp"
+        android:padding="12dp" />
+
+    <!-- Switch Bật/tắt Chế độ tối -->
+    <Switch
+        android:id="@+id/switch_dark_mode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Chế độ tối"
+        android:textSize="16sp" />
+
+</LinearLayout>

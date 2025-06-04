@@ -2,6 +2,7 @@ package com.example.appluyentapthilythuyetbanglaixea1;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -28,10 +29,11 @@ import java.io.OutputStream;
 public class LuyenTap extends AppCompatActivity {
     int correctAnswerIndex = -1;  // 0 -> A, 1 -> B, 2 -> C, 3 -> D
     int currentQuestionIndex = 0;
+    int answerQuantity = 0;
     TextView questionText;
     RadioGroup answersGroup;
     RadioButton answer1, answer2, answer3, answer4;
-    Button nextQuestionBtn;
+    Button nextQuestionBtn,btnQuaylaiTopic;
     ImageView questionImage;
     // Mở DB
     SQLiteDatabase db;
@@ -53,6 +55,14 @@ public class LuyenTap extends AppCompatActivity {
         answersGroup = findViewById(R.id.answersGroup);
         nextQuestionBtn = findViewById(R.id.nextQuestionBtn);
         questionImage = findViewById(R.id.questionImage);
+        btnQuaylaiTopic =findViewById(R.id.btn_quaylai_topic);
+        btnQuaylaiTopic.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(LuyenTap.this, TopicLuyenTap.class);
+                startActivity(intent);
+            }
+        });
         // Nhận chủ đề từ Intent
         String topic = getIntent().getStringExtra("topic");
         if (topic == null) topic = "";
@@ -82,6 +92,14 @@ public class LuyenTap extends AppCompatActivity {
                 loadQuestion(0,sqlcode);
             }
                 break;
+            case "Tonghop":
+            {
+                sqlcode = "SELECT id, content, image_path FROM Question ORDER BY id LIMIT 1 OFFSET ";
+                nextQuestionBtn.setOnClickListener(v -> {currentQuestionIndex++;
+                    loadQuestion(currentQuestionIndex, sqlcode);});
+                loadQuestion(0,sqlcode);
+            }
+                break;
             default:
                 // xử lý mặc định hoặc báo lỗi nếu cần
                 break;
@@ -105,8 +123,8 @@ public class LuyenTap extends AppCompatActivity {
             int questionId = questionCursor.getInt(questionCursor.getColumnIndex("id"));
             String question = questionCursor.getString(questionCursor.getColumnIndex("content"));
             String imagePath = questionCursor.getString(questionCursor.getColumnIndex("image_path"));
-            Log.d("image_path", "id= "+ questionId);
-            Log.d("IMAGE_PATH", "Path from DB: " + imagePath);
+//            Log.d("image_path", "id= "+ questionId);
+//            Log.d("IMAGE_PATH", "Path from DB: " + imagePath);
             if (imagePath != null && !imagePath.isEmpty()) {
                 try {
                     InputStream is = getAssets().open(imagePath);
@@ -120,12 +138,20 @@ public class LuyenTap extends AppCompatActivity {
             } else {
                 questionImage.setVisibility(View.GONE);
             }
-            questionText.setText(question);
+            questionText.setText("Câu số "+questionId+": "+question);
+
+            //Hiển thị câu trả lời
             Cursor answerCursor = db.rawQuery(
                     "SELECT content, is_correct FROM Answer WHERE question_id = ? ORDER BY id ASC",
                     new String[]{String.valueOf(questionId)}
             );
-
+            answerQuantity = answerCursor.getCount();
+            if (answerQuantity<4){
+                for(int i = answerQuantity; i<4; i++){
+                    answerButtons[i].setEnabled(false);
+                    answerButtons[i].setVisibility(View.GONE);
+                }
+            }
             int answerIndex = 0;
             while (answerCursor.moveToNext() && answerIndex < 4) {
                 String answerText = answerCursor.getString(answerCursor.getColumnIndex("content"));
@@ -134,7 +160,6 @@ public class LuyenTap extends AppCompatActivity {
                 if (isCorrect == 1) {
                     correctAnswerIndex = answerIndex;
                 }
-
                 answerIndex++;
             }
             answersGroup.setOnCheckedChangeListener(null);
@@ -170,7 +195,11 @@ public class LuyenTap extends AppCompatActivity {
             });
 
         } else {
-            questionText.setText("Không tìm thấy câu hỏi nào.");
+            questionText.setText("Đã hoàn thành toàn bộ câu hỏi.");
+            for (int i = 0; i < answerButtons.length; i++) {
+                answerButtons[i].setEnabled(false);
+                answerButtons[i].setVisibility(View.GONE);
+            }
         }
         questionCursor.close();
     }

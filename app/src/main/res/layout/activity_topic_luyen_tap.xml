@@ -19,6 +19,15 @@
         android:layout_marginBottom="24dp" />
 
     <Button
+        android:id="@+id/btn_topic_tonghop"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Tổng hợp toàn bộ 200 câu hỏi"
+        android:textSize="18sp"
+        android:layout_marginBottom="16dp"
+        android:padding="12dp" />
+
+    <Button
         android:id="@+id/btn_topic_luat"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -41,6 +50,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Sa hình"
+        android:textSize="18sp"
+        android:layout_marginBottom="16dp"
+        android:padding="12dp" />
+    <Button
+        android:id="@+id/btn_quaylai"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Quay lại"
         android:textSize="18sp"
         android:padding="12dp" />
 

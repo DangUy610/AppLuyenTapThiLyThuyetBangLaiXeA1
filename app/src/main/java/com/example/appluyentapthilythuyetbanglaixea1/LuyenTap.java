@@ -30,6 +30,8 @@ public class LuyenTap extends AppCompatActivity {
     int correctAnswerIndex = -1;  // 0 -> A, 1 -> B, 2 -> C, 3 -> D
     int currentQuestionIndex = 0;
     int answerQuantity = 0;
+    int questionQuantity = 0;
+    int correctAnswerCount = 0;
     TextView questionText;
     RadioGroup answersGroup;
     RadioButton answer1, answer2, answer3, answer4;
@@ -65,7 +67,6 @@ public class LuyenTap extends AppCompatActivity {
         });
         // Nhận chủ đề từ Intent
         String topic = getIntent().getStringExtra("topic");
-        if (topic == null) topic = "";
 
         switch (topic) {
             case "LuatGTDB":
@@ -108,6 +109,7 @@ public class LuyenTap extends AppCompatActivity {
     private void loadQuestion(int index,String sqlcode) {
         RadioButton[] answerButtons = {answer1, answer2, answer3, answer4};
         // Reset UI
+        answersGroup.setOnCheckedChangeListener(null);
         answersGroup.clearCheck();
         for (RadioButton btn : answerButtons) {
             btn.setEnabled(true);
@@ -156,13 +158,13 @@ public class LuyenTap extends AppCompatActivity {
             while (answerCursor.moveToNext() && answerIndex < 4) {
                 String answerText = answerCursor.getString(answerCursor.getColumnIndex("content"));
                 int isCorrect = answerCursor.getInt(answerCursor.getColumnIndex("is_correct"));
+                answerButtons[answerIndex].setVisibility(View.VISIBLE);
                 answerButtons[answerIndex].setText(answerText);
                 if (isCorrect == 1) {
                     correctAnswerIndex = answerIndex;
                 }
                 answerIndex++;
             }
-            answersGroup.setOnCheckedChangeListener(null);
             answersGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(RadioGroup group, int checkedId) {
@@ -186,16 +188,21 @@ public class LuyenTap extends AppCompatActivity {
                     // Tô màu: Xanh lá nếu đúng, đỏ nếu sai
                     if (selectedIndex == correctAnswerIndex) {
                         answerButtons[selectedIndex].setTextColor(Color.GREEN);
-                    } else {
+                        correctAnswerCount++;
+//                        Log.d("CORRECT_ANWSER_COUNT","correctAnswerCount = "+correctAnswerCount);
+                    }
+                    else {
                         answerButtons[selectedIndex].setTextColor(Color.RED);
                         answerButtons[correctAnswerIndex].setTextColor(Color.GREEN);
                     }
                     nextQuestionBtn.setEnabled(true);
+                    questionQuantity++;
+//                    Log.d("QUESTION_QUANTITY", "question_quantity = "+questionQuantity);
                 }
             });
 
         } else {
-            questionText.setText("Đã hoàn thành toàn bộ câu hỏi.");
+            questionText.setText("Đã hoàn thành toàn bộ câu hỏi.\nBạn đã trả lời đúng "+correctAnswerCount+" trong tổng số "+questionQuantity+" câu hỏi.");
             for (int i = 0; i < answerButtons.length; i++) {
                 answerButtons[i].setEnabled(false);
                 answerButtons[i].setVisibility(View.GONE);

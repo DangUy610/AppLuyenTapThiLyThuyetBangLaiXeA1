@@ -28,6 +28,15 @@
         android:padding="12dp" />
 
     <Button
+        android:id="@+id/btn_topic_critical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="20 câu điểm liệt"
+        android:textSize="18sp"
+        android:layout_marginBottom="16dp"
+        android:padding="12dp" />
+
+    <Button
         android:id="@+id/btn_topic_luat"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

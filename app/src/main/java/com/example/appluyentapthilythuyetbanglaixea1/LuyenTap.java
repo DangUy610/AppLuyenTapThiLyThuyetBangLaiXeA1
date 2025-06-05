@@ -108,6 +108,14 @@ public class LuyenTap extends AppCompatActivity {
                 loadQuestion(0,sqlcode);
             }
                 break;
+            case "Critical":
+            {
+                sqlcode = "SELECT id, content, image_path FROM Question WHERE is_critical = 1 ORDER BY id LIMIT 1 OFFSET ";
+                nextQuestionBtn.setOnClickListener(v -> {currentQuestionIndex++;
+                    loadQuestion(currentQuestionIndex, sqlcode);});
+                loadQuestion(0,sqlcode);
+            }
+                break;
             default:
                 // xử lý mặc định hoặc báo lỗi nếu cần
                 break;
@@ -148,7 +156,8 @@ public class LuyenTap extends AppCompatActivity {
             } else {
                 questionImage.setVisibility(View.GONE);
             }
-            questionText.setText("Câu số "+questionId+": "+question);
+            questionQuantity++;
+            questionText.setText("Câu số "+questionQuantity+": "+question);
 
             //Hiển thị câu trả lời
             Cursor answerCursor = db.rawQuery(
@@ -207,7 +216,6 @@ public class LuyenTap extends AppCompatActivity {
                         answerButtons[correctAnswerIndex].setBackgroundColor(Color.parseColor("#4CAF50"));
                     }
                     nextQuestionBtn.setEnabled(true);
-                    questionQuantity++;
 //                    Log.d("QUESTION_QUANTITY", "question_quantity = "+questionQuantity);
                 }
             });
@@ -222,10 +230,10 @@ public class LuyenTap extends AppCompatActivity {
         questionCursor.close();
     }
     private void copyDatabaseIfNeeded(Context context) {
-        File dbFile = context.getDatabasePath("sample_questions.db");
+        File dbFile = context.getDatabasePath("ly_thuyet_a1_200.db");
         if (!dbFile.exists()) {
             dbFile.getParentFile().mkdirs();
-            try (InputStream is = context.getAssets().open("sample_questions.db");
+            try (InputStream is = context.getAssets().open("ly_thuyet_a1_200.db");
                  OutputStream os = new FileOutputStream(dbFile)) {
                 byte[] buffer = new byte[1024];
                 int length;

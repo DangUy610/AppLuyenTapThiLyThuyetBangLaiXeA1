@@ -8,7 +8,7 @@ import android.view.View;
 import android.widget.Button;
 
 public class TopicLuyenTap extends AppCompatActivity {
-    Button btnLuat, btnBienBao, btnSaHinh, btnQuaylai, btnTonghop;
+    Button btnLuat, btnBienBao, btnSaHinh, btnQuaylai, btnTonghop, btnCritical;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,12 +20,21 @@ public class TopicLuyenTap extends AppCompatActivity {
         btnSaHinh    = findViewById(R.id.btn_topic_sahinh);
         btnQuaylai   = findViewById(R.id.btn_quaylai);
         btnTonghop   = findViewById(R.id.btn_topic_tonghop);
-
+        btnCritical = findViewById(R.id.btn_topic_critical);
         btnTonghop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(TopicLuyenTap.this, LuyenTap.class);
                 intent.putExtra("topic", "Tonghop");
+                startActivity(intent);
+            }
+        });
+
+        btnCritical.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(TopicLuyenTap.this, LuyenTap.class);
+                intent.putExtra("topic","Critical");
                 startActivity(intent);
             }
         });

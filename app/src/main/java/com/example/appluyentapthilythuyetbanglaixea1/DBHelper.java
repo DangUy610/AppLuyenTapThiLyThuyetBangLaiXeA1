@@ -12,7 +12,7 @@ import java.io.OutputStream;
 
 public class DBHelper extends SQLiteOpenHelper {
 
-    private static final String DB_NAME = "sample_questions.db";
+    private static final String DB_NAME = "ly_thuyet_a1_200.db";
     private static final int DB_VERSION = 1;
     private final Context context;
 

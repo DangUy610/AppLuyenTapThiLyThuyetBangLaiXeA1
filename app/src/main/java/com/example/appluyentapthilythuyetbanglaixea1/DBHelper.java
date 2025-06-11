@@ -1,6 +1,7 @@
 package com.example.appluyentapthilythuyetbanglaixea1;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
@@ -9,6 +10,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 public class DBHelper extends SQLiteOpenHelper {
 
@@ -60,4 +63,53 @@ public class DBHelper extends SQLiteOpenHelper {
             }
         }
     }
+    public List<Question> getRandomQuestionsWithFatal(int n, int m) {
+        SQLiteDatabase db = getReadableDatabase();
+        List<Question> list = new ArrayList<>();
+
+        // m câu điểm liệt
+        Cursor c1 = db.rawQuery(
+                "SELECT id, content, is_critical, image_path FROM Question " +
+                        "WHERE is_critical=1 ORDER BY RANDOM() LIMIT "+m, null);
+        if (c1.moveToFirst()) {
+            list.add(loadTestQuestion(db, c1));
+        }
+        c1.close();
+
+        // (n-m) câu thường
+        Cursor c2 = db.rawQuery(
+                "SELECT id, content, is_critical, image_path FROM Question " +
+                        "WHERE is_critical=0 ORDER BY RANDOM() LIMIT " + (n - m),
+                null);
+        while (c2.moveToNext()) {
+            list.add(loadTestQuestion(db, c2));
+        }
+        c2.close();
+
+        return list;
+    }
+    private Question loadTestQuestion(SQLiteDatabase db, Cursor qc) {
+        int qId        = qc.getInt(qc.getColumnIndexOrThrow("id"));
+        String text    = qc.getString(qc.getColumnIndexOrThrow("content"));
+        boolean fatal  = qc.getInt(qc.getColumnIndexOrThrow("is_critical")) == 1;
+        String imagePath = qc.getString(qc.getColumnIndexOrThrow("image_path"));
+
+        // Lấy các đáp án
+        Cursor ac = db.rawQuery(
+                "SELECT content, is_correct FROM Answer WHERE question_id=?",
+                new String[]{ String.valueOf(qId) });
+        List<String> options = new ArrayList<>();
+        int correctIdx = -1, idx = 0;
+        while (ac.moveToNext()) {
+            options.add(ac.getString(ac.getColumnIndexOrThrow("content")));
+            if (ac.getInt(ac.getColumnIndexOrThrow("is_correct")) == 1) {
+                correctIdx = idx;
+            }
+            idx++;
+        }
+        ac.close();
+
+        return new Question(qId, text, options, correctIdx, fatal, imagePath);
+    }
+
 }

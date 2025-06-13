@@ -63,7 +63,7 @@ public class DBHelper extends SQLiteOpenHelper {
             }
         }
     }
-    public List<Question> getRandomQuestionsWithFatal(int n, int m) {
+    public List<Question> getRandomQuestionsWithCritical(int n, int m) {
         SQLiteDatabase db = getReadableDatabase();
         List<Question> list = new ArrayList<>();
 

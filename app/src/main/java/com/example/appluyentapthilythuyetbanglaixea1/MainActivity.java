@@ -21,7 +21,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         btnThithu   = findViewById(R.id.btn_thi_thu);
         btnLuyentap = findViewById(R.id.btn_luyen_tap);
         swDarkmode  = findViewById(R.id.switch_dark_mode);
